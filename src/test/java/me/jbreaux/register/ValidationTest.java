@@ -25,4 +25,18 @@ public class ValidationTest {
 		}
 
 	}
+
+	@Test
+	public void CountryTest() {
+		String validCountries[] = {"JPN","US"};//test valid country codes (I include 2 here so that the test is more meaningful
+		String invalidCountries[] = {"UK","RUS","United States", "Japan"};
+		Validation v = new Validation();
+		v.setCountryCodes(validCountries);
+		for ( int i = 0; i < validCountries.length; i++) {
+			assertTrue("Valid Country (" + validCountries[i] + ") evaluated as invalid", v.isValidCountry(validCountries[i]));
+		}
+		for ( int i = 0; i < validCountries.length; i++) {
+			assertFalse("Invalid Country (" + invalidCountries[i] + ") evaluated as valid", v.isValidCountry(invalidCountries[i]));
+		}
+	}
 }
