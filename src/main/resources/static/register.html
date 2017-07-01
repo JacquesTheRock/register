@@ -16,11 +16,15 @@
 			<form action="/api/register" method="POST">
 				<div class="form-group">
 					<label for="fname">First Name</label>
-					<input class="form-control" type="text" name="fname" id="fname" placeholder="First Name" required >
+					<input class="form-control" pattern='[^\s;"()!@#$%&*+=:<>?^\|][^;\|"()!@#$%&*+=:<>?^]*'
+						title='Can not contain the following characters: ;"()!@#$%&*+=:<>?^|'
+						type="text" name="fname" id="fname" placeholder="First Name" required >
 				</div>
 				<div class="form-group">
 					<label for="lname">Last Name</label>
-					<input class="form-control" type="text" name="lname" id="lname" placeholder="Last Name" required >
+					<input class="form-control" pattern='[^\s;"()!@#$%&*+=:<>?^\|][^;\|"()!@#$%&*+=:<>?^]*'
+						title='Can not contain the following characters: ;"()!@#$%&*+=:<>?^|'
+						type="text" name="lname" id="lname" placeholder="Last Name" required >
 				</div>
 				<div class="form-group">
 					<label for="addr1">Address 1</label>

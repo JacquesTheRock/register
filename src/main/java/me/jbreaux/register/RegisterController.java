@@ -59,12 +59,12 @@ public class RegisterController {
 		if(!validFName) {
 			logger.debug("Failure to insert registree due to invalid First Name: ({})", fname);
 			err.code = 1;
-			err.message = "Invalid First Name";
+			err.message = "First Name Contains Invalid Character";
 		} 
 		if(!validLName) {
 			logger.debug("Failure to insert registree due to invalid Last Name: ({})", lname);
 			err.code = 1;
-			err.message = "Invalid Last Name";
+			err.message = "Last Name Contains Invalid Character";
 		}
 		if(!validAddr1) {
 			logger.debug("Failure to insert registree due to invalid Address 1: ({})", addr1);
