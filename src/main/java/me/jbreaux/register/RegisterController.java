@@ -12,9 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.dao.DataAccessException;
 
+//Logging
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping(value = "/api/register")
 public class RegisterController {
+
+	private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
 	private Validation validator;
 	@Autowired
@@ -38,16 +44,38 @@ public class RegisterController {
 			@RequestParam(value="state") String state,
 			@RequestParam(value="zip") String zip,
 			@RequestParam(value="country") String country) {
-		boolean valid = true;
-		valid = valid && validator.isValidName(fname);
-		valid = valid && validator.isValidName(lname);
-		valid = valid && validator.isValidAddress(addr1);
-		valid = valid && (addr2 != null && !validator.isValidAddress(addr2));
-		valid = valid && validator.isValidName(city);
-		valid = valid && validator.isValidName(state);
-		valid = valid && validator.isValidZip(zip);
-		valid = valid && validator.isValidCountry(country);
-		if(!valid) {
+		boolean validFName = validator.isValidName(fname);
+		boolean validLName = validator.isValidName(lname);
+		boolean validAddr1 = validator.isValidAddress(addr1);
+		boolean validState = validator.isValidState(state);
+		boolean validZip = validator.isValidZip(zip);
+		boolean validCountry = validator.isValidCountry(country);
+		boolean valid = validFName && 
+				validLName &&
+				validAddr1 &&
+				validState &&
+				validZip && 
+				validCountry;
+		if(!validFName) {
+			logger.debug("Failure to insert registree due to invalid First Name: ({})", fname);
+		} 
+		if(!validLName) {
+			logger.debug("Failure to insert registree due to invalid Last Name: ({})", lname);
+		}
+		if(!validAddr1) {
+			logger.debug("Failure to insert registree due to invalid Address 1: ({})", addr1);
+		}
+		if(!validState) {
+			logger.debug("Failure to insert registree due to invalid State: ({})", state);
+		}
+		if(!validZip) {
+			logger.debug("Failure to insert registree due to invalid Zip Code: ({})", zip);
+		}
+		if(!validCountry) {
+			logger.debug("Failure to insert registree due to invalid Country: ({})", country);
+		}
+		if (!valid) {
+			logger.debug("Validation Used: {}", validator);
 			return new RedirectView(request.getHeader("referer"), false);
 		} else {
 			try {
@@ -57,6 +85,7 @@ public class RegisterController {
 					);
 			} catch(DataAccessException ex) {
 				//TODO: Log the error and redirect to an Error page
+				logger.error("Failure to insert record due to: {}", ex.getMessage());
 				return new RedirectView(request.getHeader("referer"), false);
 			}
 			return new RedirectView(afterRegister, true);

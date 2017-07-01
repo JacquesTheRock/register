@@ -9,6 +9,9 @@ public class Validation {
 	@Value("${validation.zip}")
 	private String zipRegex;
 
+	@Value("${validation.state}")
+	private String stateRegex;
+
 	@Value("${validation.name}")
 	private String nameRegex;
 
@@ -76,6 +79,14 @@ public class Validation {
 	}
 
 	/**
+	 * Validates that a State meets the State regex
+	 */
+	public boolean isValidState(String state) {
+		return state != null && Pattern.matches(stateRegex,state);
+	}
+
+
+	/**
 	 * Validates the address length, we only check bounds on min and maximum lengths
 	 */
 	public boolean isValidAddress(String address) {
@@ -89,4 +100,10 @@ public class Validation {
 		return name != null && Pattern.matches(nameRegex, name);
 	} 	
 
+	/**
+ 	*
+ 	*/
+	public String toString() {
+		return "Zip Pattern: " + zipRegex + "\tState Pattern: " + stateRegex + "\tName Pattern: " + nameRegex;
+	}
 }
