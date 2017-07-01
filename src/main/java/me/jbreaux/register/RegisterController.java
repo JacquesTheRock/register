@@ -32,9 +32,8 @@ public class RegisterController {
 	JdbcTemplate jdbcTemplate;
 	//DataSource ds;
 
-	private String afterRegister = "/confirm.html";
 	@RequestMapping(method = RequestMethod.POST)
-	public RedirectView RegisterInfo(
+	public @ResponseBody ErrorMsg RegisterInfo(
 			HttpServletRequest request,
 			@RequestParam(value="fname") String fname,
 			@RequestParam(value="lname") String lname,
@@ -56,27 +55,39 @@ public class RegisterController {
 				validState &&
 				validZip && 
 				validCountry;
+		ErrorMsg err = new ErrorMsg();
 		if(!validFName) {
 			logger.debug("Failure to insert registree due to invalid First Name: ({})", fname);
+			err.code = 1;
+			err.message = "Invalid First Name";
 		} 
 		if(!validLName) {
 			logger.debug("Failure to insert registree due to invalid Last Name: ({})", lname);
+			err.code = 1;
+			err.message = "Invalid Last Name";
 		}
 		if(!validAddr1) {
 			logger.debug("Failure to insert registree due to invalid Address 1: ({})", addr1);
+			err.code = 1;
+			err.message = "Invalid Address 1";
 		}
 		if(!validState) {
 			logger.debug("Failure to insert registree due to invalid State: ({})", state);
+			err.code = 1;
+			err.message = "Invalid State";
 		}
 		if(!validZip) {
-			logger.debug("Failure to insert registree due to invalid Zip Code: ({})", zip);
+			logger.debug("Failure to insert registree due to invalid Zip code: ({})", zip);
+			err.code = 1;
+			err.message = "Invalid Zip code";
 		}
 		if(!validCountry) {
 			logger.debug("Failure to insert registree due to invalid Country: ({})", country);
+			err.code = 1;
+			err.message = "Invalid Country";
 		}
 		if (!valid) {
 			logger.debug("Validation Used: {}", validator);
-			return new RedirectView(request.getHeader("referer"), false);
 		} else {
 			try {
 				jdbcTemplate.update(
@@ -84,12 +95,12 @@ public class RegisterController {
 					fname,lname,addr1,addr2,city,state,zip,country
 					);
 			} catch(DataAccessException ex) {
-				//TODO: Log the error and redirect to an Error page
 				logger.error("Failure to insert record due to: {}", ex.getMessage());
-				return new RedirectView(request.getHeader("referer"), false);
+				err.code = 500;
+				err.message = "Internal Error, contact administrator";
 			}
-			return new RedirectView(afterRegister, true);
 		}
+		return err;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
