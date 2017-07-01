@@ -3,9 +3,11 @@ This is a test project for using Java, Springboot, and JS to register users usin
 
 Requires JS be enabled on the browser.
 
-#requirements
- . JS
- . Java 8 (Writting using openjdk 8)
+# requirements
 
-#Running (Without making a jar)
+JS
+
+Java 8 (Writting using openjdk 8)
+
+# Running (Without making a jar)
 ./gradlew bootRun
