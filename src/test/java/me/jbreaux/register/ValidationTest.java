@@ -12,7 +12,7 @@ import static org.junit.Assert.assertFalse;
 public class ValidationTest {
 	@Test
 	public void ZipCodeTest() {
-		String usRegex = "[0-9]{5}([- ][0-9]{4})?";
+		String usRegex = "^[0-9]{5}([- ][0-9]{4})?$";
 		String goodZips[] = {"12345","12345-6789","12345 6789"};
 		String badZips[] = {"1234","abc45","12345_6789","12345-", null};
 		Validation v = new Validation();
@@ -58,5 +58,23 @@ public class ValidationTest {
 			assertFalse("Invalid Address (" + addr + ") evaluated as valid", v.isValidAddress(addr));
 
 		}
+	}
+
+	@Test
+	public void NameTest() {
+		String regexPattern = "^[^\\s].*$";
+		String validNames[] = {"Jorge", "Carol Anne", "Mary Sue"};
+		String invalidNames[] = {" ", " catty", "\ncatty"};
+		Validation v = new Validation();
+		v.setNameRegex(regexPattern);
+		for(int i = 0; i < validNames.length; i++) {
+			String name = validNames[i];
+			assertTrue("Valid Name (" + (name == null ? "<NULL>" : name ) + ") evaluated as invalid", v.isValidName(name));
+		}
+		for(int i = 0; i < invalidNames.length; i++) {
+			String name = invalidNames[i];
+			assertFalse("Invalid Name (" + name + ") evaluated as valid", v.isValidName(name));
+		}
+		v.setNameRegex(regexPattern);
 	}
 }

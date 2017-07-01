@@ -9,6 +9,9 @@ public class Validation {
 	@Value("${validation.zip}")
 	private String zipRegex;
 
+	@Value("${validation.name}")
+	private String nameRegex;
+
 	@Value("${validation.country}")
 	private String countryList[];
 
@@ -29,6 +32,13 @@ public class Validation {
 	 */
 	public void setCountryCodes(String vals[]) {
 		countryList = vals;
+	}
+
+	/**
+	 * Sets the regex for valid names or namelike fields
+	 */
+	public void setNameRegex(String val) {
+		nameRegex = val;
 	}
 
 	/**
@@ -71,5 +81,12 @@ public class Validation {
 	public boolean isValidAddress(String address) {
 		return address != null && address.length() >= minAddrLength && address.length() <= maxAddrLength;
 	}
+
+	/**
+ 	* Validate the name using the supplied regex.
+ 	*/
+	public boolean isValidName(String name) {
+		return name != null && Pattern.matches(nameRegex, name);
+	} 	
 
 }
