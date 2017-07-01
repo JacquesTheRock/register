@@ -12,6 +12,11 @@ public class Validation {
 	@Value("${validation.country}")
 	private String countryList[];
 
+	@Value("${validation.address.minlength}")
+	private int minAddrLength;
+	@Value("${validation.address.maxlength}")
+	private int maxAddrLength;
+
 	/**
 	 * Sets the Valid Regex for Zip Codes
 	 */
@@ -27,11 +32,25 @@ public class Validation {
 	}
 
 	/**
+	 * Set the minimum address length
+	 */
+	public void setAddressMin(int val) {
+		minAddrLength = val;
+	}
+
+	/**
+	 * Set the maximum address length
+	 */
+	public void setAddressMax(int val) {
+		maxAddrLength = val;
+	}
+
+	/**
 	 *  Validates a ZIP Code using a regex match
 	 *  @return Whether the zip is valid
 	 */
 	public boolean isValidZip(String zip) {
-		return Pattern.matches(zipRegex, zip);
+		return zip != null && Pattern.matches(zipRegex, zip);
 	}
 
 	/**
@@ -44,6 +63,13 @@ public class Validation {
 			}
 		}
 		return countryList.length == 0; //return true for an empty list of countries
+	}
+
+	/**
+	 * Validates the address length, we only check bounds on min and maximum lengths
+	 */
+	public boolean isValidAddress(String address) {
+		return address != null && address.length() >= minAddrLength && address.length() <= maxAddrLength;
 	}
 
 }
