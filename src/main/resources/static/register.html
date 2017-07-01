@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Register</title>
+		<meta charset="UTF-8">
+		<meta name="author" conent="Jacques">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="container">
+			<h1>Register</h1>
+			<form action="New Account">
+				<div class="form-group">
+					<label for="fname">First Name</label>
+					<input class="form-control" type="text" name="fname" id="fname" placeholder="First Name" required >
+				</div>
+				<div class="form-group">
+					<label for="lname">Last Name</label>
+					<input class="form-control" type="text" name="lname" id="lname" placeholder="Last Name" required >
+				</div>
+				<div class="form-group">
+					<label for="addr1">Address 1</label>
+					<input class="form-control" type="text" name="addr1" id="addr1" pattern=".{5,255}" title="Address must be at least 5 characters and shorter than 255 characters" placeholder="Address 1" required >
+				</div>
+				<div class="form-group">
+					<label for="addr2">Address 2</label>
+					<input class="form-control" type="text" name="addr2" id="addr2" placeholder="Address 2" >
+				</div>
+				<div class="form-group">
+					<label for="city">City</label>
+					<input class="form-control" type="text" name="city" id="city" placeholder="City" required >
+				</div>
+				<div class="form-group">
+					<label for="state">State</label>
+					<input class="form-control" type="text" name="state" id="state" placeholder="State" required >
+				</div>
+				<div class="form-group">
+					<label for="zip">Zip</label>
+					<input class="form-control" type="text" name="zip" id="zip" pattern="[0-9]{5}([- ][0-9]{4})?" title="Either enter a 5 digit Zip Code or full zip code in form of 00000-0000" placeholder="00000-0000" required >
+				</div>
+				<div class="form-group">
+					<label for="country">Country</label>
+					<select class="form-control" name="country" id="country">
+						<option value="US">US</option>
+					</select>
+				</div>
+				<input type="submit" class="btn btn-primary" value="register">
+			</form>
+		</div>
+	</body>
+</html>
